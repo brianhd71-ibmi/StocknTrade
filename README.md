@@ -1,5 +1,6 @@
 ## Stock'n Trade (INVSTOCK) — User Operations Manual
-This guide outlines how to navigate and manage inventory using the Stock'n Trade green-screen terminal interface. Note: see section Set lookup data for categories and origins to create standardized data before you begin
+This guide outlines how to navigate and manage inventory using the Stock'n Trade green-screen terminal interface. 
+Note: See section - Set lookup data for categories and origins to create standardized data before you begin
 ------------------------------
 ## 🖥️ Screen Layout Overview
 The terminal dashboard is broken down into three functional zones:
