@@ -1,9 +1,10 @@
       ****************************************************************
       *      ________________                                        *
-      *      |               |    RP Vintage Technologies            *
-      *      |  RP Vintage   |    4777 W. Daybreak Rim way.          *
-      *      |     Inc       |    South Jordan, UT 84009             *
+      *      |Vintage        |                                       *
+      *      |   Software    |    4777 W. Daybreak Rim way.          *
+      *      |      Solutions|    South Jordan, UT 84009             *
       *      |_______________|                                       *
+      *                                                              *
       *                                                              *
       *            Program Name:  CATLOOKUP                          *
       *                                                              *
