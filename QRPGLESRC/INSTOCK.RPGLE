@@ -1,6 +1,6 @@
       ****************************************************************
       *      ________________                                        *
-      *      |Vintage        |                                       *
+      *      |Vintage        |    R.P. Vintage SS                    *
       *      |   Software    |    4777 W. Daybreak Rim way.          *
       *      |      Solutions|    South Jordan, UT 84009             *
       *      |_______________|                                       *
