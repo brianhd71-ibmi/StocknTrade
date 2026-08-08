@@ -1,8 +1,8 @@
       ****************************************************************
       *      ________________                                        *
-      *      |               |    Wicked Smaht! Technologies         *
-      *      | Brian L Inc.  |    4777 W. Daybreak Rim way.          *
-      *      |               |    South Jordan, UT 84009             *
+      *      |Vintage        |                                       *
+      *      |   Software    |    4777 W. Daybreak Rim way.          *
+      *      |      Solutions|    South Jordan, UT 84009             *
       *      |_______________|                                       *
       *                                                              *
       *            Program Name:  INVSTOCK                           *
