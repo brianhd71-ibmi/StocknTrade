@@ -42,7 +42,7 @@ To prevent manual data entry errors and speed up processing, both the Category a
 
 * Forced Lookup: Key in 0000 into the code field and press [Enter] to intentionally trigger a lookup search list window.
 * Direct Entry: Key in a known 4-digit code directly into the target field.
-* Automatic Error Recovery: If you enter an invalid or unrecognized code, the system will not crash or send a disruptive hard error message. Instead, it gracefully intercepts the input and automatically opens the lookup helper so you can pick the correct assignment.
+* Automatic Error Recovery: If you enter an invalid or unrecognized code, the system will not crash or send a disruptive hard error message. Instead, it gracefully intercepts the input and automatically opens the lookup helper so you can pick the correct selection.
 
 ## ⌨️ Window Controls & Navigation
 
@@ -55,7 +55,7 @@ To prevent manual data entry errors and speed up processing, both the Category a
 * Table definitions located in SQL folder
 * Download and save DDS and RPGLE members to appropriate folders and compile
 * Optional to download menu objects
-* 
+  
 ## Set lookup data for categories and origins
  For these two standardized fields you will want to set up date for the user to choose from rather than keying in whatever they think is appropriate.  To add data to these two simple applications: 
  * call itemcat - click F6 to add a category, or place a 2 on an existing category to edit
