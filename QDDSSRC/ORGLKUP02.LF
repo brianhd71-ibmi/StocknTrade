@@ -1,0 +1,9 @@
+     A*============================================================
+     A* LOGICAL FILE: ORIGIN LOOKUP BY ORIGIN
+     A*============================================================
+     A          R ORGREF                    PFILE(ORGLOOKUP)
+     A            ORGNUMBER      4A
+     A            ORIGIN        25A
+     A*
+     A* Key Fields for traditional RPGLE access
+     A          K ORIGIN

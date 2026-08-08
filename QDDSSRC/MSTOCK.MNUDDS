@@ -1,0 +1,41 @@
+     A* Free Form Menu: MSTOCK
+     A*%%TS  SD  20260808  044519  BRIANHD71   REL-V7R5M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3                  -
+     A                                             27 132 *DS4)
+     A                                      CHGINPDFT
+     A                                      INDARA
+     A                                      PRINT(*LIBL/QSYSPRT)
+     A          R MSTOCK
+     A*%%TS  SD  20260808  044519  BRIANHD71   REL-V7R5M0  5770-WDS
+     A                                      DSPMOD(*DS3)
+     A                                      LOCK
+     A                                      SLNO(01)
+     A                                      CLRL(*ALL)
+     A                                      ALWROL
+     A                                      CF03
+     A                                      HELP
+     A                                      HOME
+     A                                      HLPRTN
+     A                                  1  2'MSTOCK'
+     A                                      COLOR(BLU)
+     A                                  3  2'Select one of the following:'
+     A                                      COLOR(BLU)
+     A                                  5  7'1.'
+     A                                  6  7'2.'
+     A                                  7  7'3.'
+     A                                  8  7'4.'
+     A* CMDPROMPT  Do not delete this DDS spec.
+     A                                019  2'                                  -
+     A                                          '
+     A                                  1 34'Stock n Trade'
+     A                                      DSPATR(HI)
+     A                                  5 10'StocknTrade'
+     A                                  6 10'The'
+     A                                  6 14'Catolog'
+     A                                  7 10'MadeIn'
+     A                                  8 10'Stock'
+     A                                  8 16'Listing'
+     A                                 11  6'90.'
+     A                                 11 10'Sign'
+     A                                 11 15'Off'

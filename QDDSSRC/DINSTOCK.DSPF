@@ -1,0 +1,162 @@
+     A*%%TS  SD  20260805  021411  BRIANHD71   REL-V7R5M0  5770-WDS
+     A*===============================================================
+     A* FILE NAME : dInvMaster
+     A* DESCRIPTION: STOCK'N TRADE Application Display
+     A*===============================================================
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      PRINT
+     A                                      CA03(03 'EXIT')
+     A                                      CA05(05 'SAVE')
+     A                                      CA06(06 'ADD NEW ENTRY')
+     A                                      CA12(12 'CANCEL')
+     A*================================================================*
+     A* TOP HALF: SUBFILE DATA ROW RECORD                              *
+     A*================================================================*
+     A          R SFLREC                    SFL
+     A*  99                                  SFLNXTCHG
+     A*%%TS  SD  20260726  050841  BRIANHD71   REL-V7R5M0  5770-WDS
+     A            SFLOPT         1A  B  7  2
+     A            SFLITEM        5A  O  7  5
+     A            SFLDESC       45A  O  7 12
+     A            SFLQTY         7Y 0O  7 59EDTCDE(Z)
+     A
+     A            SFLCOST        7Y 2O  7 68EDTWRD('     .  ')
+     A
+     A*================================================================*
+     A* TOP HALF: SUBFILE CONTROL RECORD                               *
+     A*================================================================*
+     A          R SFLCTL                    SFLCTL(SFLREC)
+     A*%%TS  SD  20260726  050841  BRIANHD71   REL-V7R5M0  5770-WDS
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  33                                  SFLCLR
+     A  34                                  SFLEND(*MORE)
+     A                                      OVERLAY
+     A*----------------------------------------------------------------*
+     A            TODAY         10A  O  1  2
+     A                                  2  2TIME(*SYS)
+     A                                  1 68'STOCK''N TRADE'
+     A                                      DSPATR(HI)
+     A                                  3 24'SEARCH ITEM..:'
+     A                                       COLOR(WHT)
+     A            SRCHITEM      10A  B  3 40
+     A*----------------------------------------------------------------*
+     A                                  4  2'1=View 2=Edit'
+     A                                      COLOR(BLU)
+     A                                  5  2'O'
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+     A                                  5  5'ITEM '
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+     A                                  5 12'DESCRIPTION                       -
+     A                                                 '
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+     A                                  5 59'QTY    '
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+     A                                  5 68'COST    '
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+     A*----------------------------------------------------------------*
+     A* FOOTER / ERROR SECTION
+     A*----------------------------------------------------------------*
+     A          R FOOTER
+     A                                 23 22'F3=EXIT'
+     A                                      COLOR(BLU)
+     A                                 23 32'F6=Add New'
+     A                                      COLOR(BLU)
+     A            MSG           60A  O 24  2DSPATR(HI)
+     A*================================================================*
+     A* POPUP OVERLAY WINDOW: INVENTORY DETAIL DISPLAY                 *
+     A*================================================================*
+     A          R INVWIN00
+     A*%%TS  SD  20260730  235800  BRIANHD71   REL-V7R5M0  5770-WDS
+     A                                      WINDOW(5 7 15 65)
+     A                                      WDWBORDER((*COLOR WHT))
+     A                                      RMVWDW
+     A                                  2 27'View Item'
+     A                                      COLOR(WHT)
+     A* --- Inventory Fields (Output Only) ---
+     A                                  4  2'Item Number.:'
+     A                                      DSPATR(HI)
+     A            W0ITEM         5A  O  4 17COLOR(GRN)
+     A                                  5  2'Category....:'
+     A                                      DSPATR(HI)
+     A            W0CAT         25A  O  5 17
+     A                                  6  2'Description.:'
+     A                                      DSPATR(HI)
+     A            W0DESC        45A  O  6 17
+     A                                  7  2'Cost........:'
+     A                                      DSPATR(HI)
+     A            W0COST         7Y 2O  7 17EDTWRD('  ,   .  ')
+     A                                  8  2'Price.......:'
+     A                                      DSPATR(HI)
+     A            W0PRICE        7Y 2O  8 17EDTWRD('  ,   .  ')
+     A                                  9  2'Discount....:'
+     A                                      DSPATR(HI)
+     A            W0DISC         2S 0O  9 17
+     A                                 10  2'Quantity....:'
+     A                                      DSPATR(HI)
+     A            W0QTY          5Y 0O 10 17EDTCDE(Z)
+     A                                 11  2'Ord Threshold:'
+     A                                      DSPATR(HI)
+     A            W0THRESH       5Y 0O 11 17EDTCDE(Z)
+     A                                 12  2'Origin......:'
+     A                                      DSPATR(HI)
+     A            W0ORIG        25A  O 12 17
+     A* --- White Function Key Footer ---
+     A                                 14  2'F12=Cancel'
+     A                                      COLOR(BLU)
+     A*================================================================*
+     A* POPUP OVERLAY WINDOW: INVENTORY DETAIL ADD/MODIFY              *
+     A*================================================================*
+     A          R INVWIN01
+     A*%%TS  SD  20260805  021411  BRIANHD71   REL-V7R5M0  5770-WDS
+     A                                      WINDOW(5 7 15 65)
+     A                                      WDWBORDER((*COLOR WHT))
+     A                                      RMVWDW
+     A            W1HEADER      10A  O  2 27COLOR(WHT)
+     A* --- Inventory Fields (Output Only) ---
+     A                                  4  2'Item Number.:'
+     A                                      DSPATR(HI)
+     A            W1ITEM         5A  O  4 17COLOR(GRN)
+     A                                  5  2'Category....:'
+     A                                      DSPATR(HI)
+     A            W1CATNUM       4A  B  5 26CHECK(ER)
+     A            W1CAT         25A  O  5 32
+     A                                  6  2'Description.:'
+     A                                      DSPATR(HI)
+     A            W1DESC        45A  B  6 17
+     A                                  7  2'Cost........:'
+     A                                      DSPATR(HI)
+     A            W1COST         8A  B  7 17
+     A                                  8  2'Price.......:'
+     A                                      DSPATR(HI)
+     A            W1PRICE        8A  B  8 17
+     A                                  9  2'Discount....:'
+     A                                      DSPATR(HI)
+     A            W1DISC         2A  B  9 17
+     A                                 10  2'Quantity....:'
+     A                                      DSPATR(HI)
+     A            W1QTY          5Y 0B 10 17EDTCDE(Z)
+     A                                 11  2'Ord Threshold:'
+     A                                      DSPATR(HI)
+     A            W1THRESH       5Y 0B 11 17EDTCDE(Z)
+     A                                 12  2'Origin......:'
+     A                                      DSPATR(HI)
+     A                                 12 17'0000'
+     A                                      COLOR(BLU)
+     A            W1ORIGNUM      4A  B 12 26CHECK(ER)
+     A            W1ORIG        25A  O 12 33
+     A                                  5 17'0000'
+     A                                      COLOR(BLU)
+     A                                 14  3'Enter then F5=Save'
+     A                                      COLOR(BLU)
+     A                                 14 25'F12=Cancel'
+     A                                      COLOR(BLU)

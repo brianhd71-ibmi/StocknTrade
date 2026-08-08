@@ -1,0 +1,5 @@
+MSTOCKQQ,1
+0001 call instock
+0002 call itemcat
+0003 call itemorg
+0090 SIGNOFF

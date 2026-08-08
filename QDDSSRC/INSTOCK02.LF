@@ -1,0 +1,17 @@
+     A*============================================================
+     A* LOGICAL FILE: INVMASTL1
+     A*============================================================
+     A          R INSTK                     PFILE(INSTOCK)
+     A            ITEMNUMBER     5A
+     A            CATNUM         4A
+     A            ITEMDESC      45A
+     A            ITEMCOST      10S 2
+     A            ITEMPRICE     10S 2
+     A            ITEMDISC       2S 0
+     A            ITEMQTY        9B 0
+     A            ORDTHRESH      9B 0
+     A            ORIGNUM        4A
+     A*
+     A* Key Fields for traditional RPGLE access
+     A          K ITEMDESC
+

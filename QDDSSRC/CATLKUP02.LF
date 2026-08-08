@@ -1,0 +1,8 @@
+     A*============================================================
+     A* LOGICAL FILE: CATEGORY LOOKUP BY CATEGORY
+     A*============================================================
+     A          R CATREF                    PFILE(CATLOOKUP)
+     A            CATNUMBER      4A
+     A            CATEGORY      25A         VARLEN
+     A* Key Fields for traditional RPGLE access
+     A          K CATEGORY

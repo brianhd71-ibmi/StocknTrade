@@ -1,0 +1,77 @@
+     A*%%TS  SD  20260808  044552  BRIANHD71   REL-V7R5M0  5770-WDS
+     A*===============================================================
+     A* FILE NAME : dItemCat
+     A* DESCRIPTION: STOCK'N TRADE CATEGORY MAINTENANCE
+     A*===============================================================
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      CA03(03 'EXIT')
+     A                                      CA06(06 'ADD')
+     A                                      CA12(12 'CANCEL')
+     A                                      PRINT
+     A                                      INDARA
+     A*
+     A*------------ SUBFILE RECORD FORMAT ----------------------------
+      *
+     A          R SFLREC                    SFL
+     A*%%TS  SD  20260729  000530  BRIANHD71   REL-V7R5M0  5770-WDS
+     A            SFLOPT         1A  B  8 23VALUES('2')
+     A            SFLNUM         4A  O  8 26
+     A            SFLCAT        25A  O  8 32
+     A*
+     A*------------ SUBFILE CONTROL RECORD FORMAT --------------------
+     A          R SFLCTL                    SFLCTL(SFLREC)
+     A*%%TS  SD  20260808  044552  BRIANHD71   REL-V7R5M0  5770-WDS
+     A                                      SFLSIZ(0013)
+     A                                      SFLPAG(0012)
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  33                                  SFLCLR
+     A  34                                  SFLEND(*MORE)
+     A                                      OVERLAY
+     A*
+     A            TODAY         10A  O  1  2
+     A            NOW            8A  O  2  3
+     A                                  1 35'The Catalog'
+     A                                      DSPATR(HI)
+     A* Search Field at the Top
+     A                                  4 30'Search..:'
+     A                                      DSPATR(HI)
+     A            SRCHCAT       10A  B  4 40
+     A                                  5 20'2=Edit'
+     A                                      COLOR(BLU)
+     A* Column Headers
+     A                                  6 22'Opt'
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A                                  6 26'Num '
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A                                  6 32'Category Description     '
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A*
+     A*------------ FUNCTION KEY OVERLAY -----------------------------
+     A          R FOOTER                    OVERLAY
+     A                                 23  2'F3=Exit  F6=Add New'
+     A                                      COLOR(BLU)
+     A            MSG           60A  O 24  2DSPATR(HI)
+     A*
+     A*------------ Maintenance Window -----------------------------
+     A          R CATWIN01
+     A                                      WINDOW(5 7 15 65)
+     A                                      WDWBORDER((*COLOR WHT))
+     A                                      RMVWDW
+     A                                  1 25'ADD/EDIT ITEM CATEGORY'
+     A                                      DSPATR(HI)
+     A*
+     A                                  5  3'Category Number..:'
+     A            W1CATNUM       4A  O  5 22DSPATR(HI)
+     A*
+     A                                  7  3'Description......:'
+     A                                      DSPATR(HI)
+     A            W1CATDESC     25A  B  7 22
+     A*
+     A                                 13  2'F12=Cancel'
+     A                                      COLOR(BLU)
+
