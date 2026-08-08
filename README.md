@@ -53,6 +53,6 @@ To prevent manual data entry errors and speed up processing, both the Category a
 ## Set lookup data for categories and origins
  For these two standardized fields you will want to set up date for the user to choose from rather than keying in whatever they think is appropriate.  To add data to these two simple applications: 
  * call itemcat - click F6 to add a category, or place a 2 on an existing category to edit
- * call itemorig - click F6 to add an origin , or place a 2 on an existing origin to edit
+ * call itemorg - click F6 to add an origin , or place a 2 on an existing origin to edit
 
 
