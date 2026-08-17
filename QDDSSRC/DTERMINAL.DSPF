@@ -1,0 +1,199 @@
+     A*%%TS  SD  20260814  080757  BRIANHD71   REL-V7R5M0  5770-WDS
+     A*========================================================================
+     A* Terminal Transactions
+     A* DESCRIPTION: Terminal Transactions Application Display
+     A*========================================================================
+     A*%%EC
+     A                                      DSPSIZ(27 132 *DS4)
+     A                                      INDARA
+     A                                      PRINT
+     A                                      CA02(02 'PAY')
+     A                                      CA03(03 'EXIT')
+     A                                      CA12(12 'VOID SALE')
+     A          R XTERMINAL
+     A*%%TS  SD  20260814  080757  BRIANHD71   REL-V7R5M0  5770-WDS
+     A                                      CA06(06 'ADD NEW ENTRY')
+     A                                      CA07(07 'VOID ITEM')
+     A                                      CA08(08 'SCROLL UP')
+     A                                      CA09(09 'SCROLL DOWN')
+     A                                  1  2'STORE:'
+     A                                      COLOR(BLU)
+     A            STORENUM       7A  O  1 10COLOR(BLU)
+     A                                  1 55'TERMINAL TRANSACTIONS'
+     A                                      DSPATR(HI)
+     A            TODAY         10A  O  1121COLOR(BLU)
+     A            NOW            8A  O  2123COLOR(BLU)
+     A                                  2  2'TRANS:'
+     A                                      COLOR(BLU)
+     A            XNUM           9A  O  2 10COLOR(BLU)
+     A* SUBFILE COLUMN HEADERS (LEFT SIDE)
+     A                                  4  4' LN'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  4 10'ITEM '
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  4 17'DESCRIPTION                       -
+     A                                                 '
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  4 65'QTY'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  4 71'PRICE   '
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+     A*========================================================================
+     A* TRANSACTION DETAIL
+     A*========================================================================
+     A            ITEMLINE01     3Y 0O  6  4EDTCDE(Z)
+     A            ITEMLINE02     3Y 0O  8  4EDTCDE(Z)
+     A            ITEMLINE03     3Y 0O 10  4EDTCDE(Z)
+     A            ITEMLINE04     3Y 0O 12  4EDTCDE(Z)
+     A            ITEMLINE05     3Y 0O 14  4EDTCDE(Z)
+     A            ITEMLINE06     3Y 0O 16  4EDTCDE(Z)
+     A            ITEMLINE07     3Y 0O 18  4EDTCDE(Z)
+     A            ITEMLINE08     3Y 0O 20  4EDTCDE(Z)
+     A            ITEMLINE09     3Y 0O 22  4EDTCDE(Z)
+     A*
+     A            ITEMNUM01      5A  O  6 10
+     A            ITEMNUM02      5A  O  8 10
+     A            ITEMNUM03      5A  O 10 10
+     A            ITEMNUM04      5A  O 12 10
+     A            ITEMNUM05      5A  O 14 10
+     A            ITEMNUM06      5A  O 16 10
+     A            ITEMNUM07      5A  O 18 10
+     A            ITEMNUM08      5A  O 20 10
+     A            ITEMNUM09      5A  O 22 10
+     A*
+     A            ITEMDESC01    45A  O  6 17
+     A  71                                  COLOR(RED)
+     A            ITEMDESC02    45A  O  8 17
+     A  72                                  COLOR(RED)
+     A            ITEMDESC03    45A  O 10 17
+     A  73                                  COLOR(RED)
+     A            ITEMDESC04    45A  O 12 17
+     A  74                                  COLOR(RED)
+     A            ITEMDESC05    45A  O 14 17
+     A  75                                  COLOR(RED)
+     A            ITEMDESC06    45A  O 16 17
+     A  76                                  COLOR(RED)
+     A            ITEMDESC07    45A  O 18 17
+     A  77                                  COLOR(RED)
+     A            ITEMDESC08    45A  O 20 17
+     A  78                                  COLOR(RED)
+     A            ITEMDESC09    45A  O 22 17
+     A  79                                  COLOR(RED)
+     A*
+     A            ITEMQTY01      3Y 0O  6 65EDTCDE(Z)
+     A            ITEMQTY02      3Y 0O  8 65EDTCDE(Z)
+     A            ITEMQTY03      3Y 0O 10 65EDTCDE(Z)
+     A            ITEMQTY04      3Y 0O 12 65EDTCDE(Z)
+     A            ITEMQTY05      3Y 0O 14 65EDTCDE(Z)
+     A            ITEMQTY06      3Y 0O 16 65EDTCDE(Z)
+     A            ITEMQTY07      3Y 0O 18 65EDTCDE(Z)
+     A            ITEMQTY08      3Y 0O 20 65EDTCDE(Z)
+     A            ITEMQTY09      3Y 0O 22 65EDTCDE(Z)
+     A*
+     A            ITEMPRIC01     7Y 2O  6 71EDTWRD('     .  -')
+     A            ITEMPRIC02     7Y 2O  8 71EDTWRD('     .  -')
+     A            ITEMPRIC03     7Y 2O 10 71EDTWRD('     .  -')
+     A            ITEMPRIC04     7Y 2O 12 71EDTWRD('     .  -')
+     A            ITEMPRIC05     7Y 2O 14 71EDTWRD('     .  -')
+     A            ITEMPRIC06     7Y 2O 16 71EDTWRD('     .  -')
+     A            ITEMPRIC07     7Y 2O 18 71EDTWRD('     .  -')
+     A            ITEMPRIC08     7Y 2O 20 71EDTWRD('     .  -')
+     A            ITEMPRIC09     7Y 2O 22 71EDTWRD('     .  -')
+     A*
+     A            DSPVOID01      8A  O  7 33COLOR(RED)
+     A            DSPVOID02      8A  O  9 33COLOR(RED)
+     A            DSPVOID03      8A  O 11 33COLOR(RED)
+     A            DSPVOID04      8A  O 13 33COLOR(RED)
+     A            DSPVOID05      8A  O 15 33COLOR(RED)
+     A            DSPVOID06      8A  O 17 33COLOR(RED)
+     A            DSPVOID07      8A  O 19 33COLOR(RED)
+     A            DSPVOID08      8A  O 21 33COLOR(RED)
+     A            DSPVOID09      8A  O 23 33COLOR(RED)
+     A*
+     A            ITEMDISC01     7Y 2O  7 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC02     7Y 2O  9 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC03     7Y 2O 11 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC04     7Y 2O 13 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC05     7Y 2O 15 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC06     7Y 2O 17 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC07     7Y 2O 19 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC08     7Y 2O 21 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A            ITEMDISC09     7Y 2O 23 71EDTWRD('     .  -')
+     A                                      COLOR(WHT)
+     A*========================================================================
+     A* TRANSACTION ENTRY & TOTALS RECORD FORMAT (RIGHT SIDE)
+     A*========================================================================
+     A                                  6 90'|'
+     A                                  7 90'|'
+     A                                  8 90'|'
+     A                                  9 90'|'
+     A                                 10 90'|'
+     A                                 11 90'|'
+     A                                 12 90'|'
+     A                                 13 90'|'
+     A                                 14 90'|'
+     A                                 15 90'|'
+     A                                 16 90'|'
+     A                                 17 90'|'
+     A                                 18 90'|'
+     A                                 19 90'|'
+     A                                 20 90'|'
+     A                                 21 90'|'
+     A                                 22 90'|'
+     A                                 23 90'|'
+     A                                 24  3'-----------------------------------
+     A                                      ------------------------------------
+     A                                      ----------------'
+     A* ITEM LOOKUP ENGINE / SHORTENED ENTRY
+     A* FINANCIAL SUMMARY BLOCK
+     A                                  6101'--- SUMMARY ---'
+     A                                      DSPATR(HI)
+     A                                  8101'SUBTOTAL:'
+     A            T_SUBTOTAL     9Y 2O  8111EDTWRD('       .  ')
+     A                                  9101'DISCOUNT:'
+     A            T_DISCOUNT     9Y 2O  9111EDTWRD('       .  -')
+     A                                      COLOR(WHT)
+     A                                 10101'TAX.....:'
+     A            T_TAX          7Y 2O 10113EDTWRD('     .  ')
+     A                                 12100'TOTAL...:$'
+     A            T_TOTAL        9Y 2O 12111EDTWRD('       .  ')
+     A                                      DSPATR(RI)
+     A                                 16101'--- ITEM ENTRY ---'
+     A                                      DSPATR(HI)
+     A                                 18103'ITEM ID:'
+     A            E_ITEMID       5A  B 18112CHECK(ER)
+     A  50                                  DSPATR(RI)
+     A*
+     A                                 20106'Enter 00000 for lookup'
+     A                                      COLOR(BLU)
+     A                                 26  1'STOCK''N TRADE'
+     A                                      DSPATR(HI)
+     A                                 26 17'F2=Pay'
+     A                                      COLOR(BLU)
+     A                                 26 25'F3=EXIT'
+     A                                      COLOR(BLU)
+     A                                 26 38'F6=New Sale'
+     A                                      COLOR(BLU)
+     A                                 26 51'F7=Void Item'
+     A                                      COLOR(BLU)
+     A  70                             26 65'F8=ScrollUp'
+     A                                      COLOR(BLU)
+     A  70                             26 78'F9=ScrollDown'
+     A                                      COLOR(BLU)
+     A                                 26 97'F12=Void Sale'
+     A                                      COLOR(BLU)
+     A            MSG           60A  O 27  2COLOR(WHT)
