@@ -50,6 +50,17 @@ To prevent manual data entry errors and speed up processing, both the Category a
 * [Enter] then F5=Save: Validates your modifications or new entry fields, clears the transaction log, and commits the records safely to the master physical tables.
 * F12=Cancel: Closes the modal window immediately without saving, safely releasing file tracking locks (unlock instock01).
 
+## Create Data Areas to assign new ID numbers
+The way Stock 'N Trade assigns new ID numbers for each major application is through data areas. The general syntax is:
+* CRTDTAARA DTAARA(MYLIBRARY/MYDATAARA) TYPE(*CHAR) LEN({Length of ID number}) VALUE('Initial Value')TEXT('My Data Area Description')
+
+You must seed the data area with a starting number and your application will automatically increment the number for a new item, category, transaction etc.. ID number data areas are: 
+* NEXTITEM  char(5)
+* NEXTCAT   char(4)
+* NEXTORG   char(4)
+* XACTION   char(9)
+
+You must modifiy the source code in InStock, ItemCat, ItemOrg and Terminal respectively to point to your library.
 
 ## Create tables and compile objects
 * Table definitions located in SQL folder
