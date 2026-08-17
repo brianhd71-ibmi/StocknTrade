@@ -1,0 +1,43 @@
+     A*================================================================*
+     A* STOCK LISTING REPORT - PRINTER FILE                            *
+     A*================================================================*
+     A*                                      REF(InStock01)
+     A*
+     A*================================================================*
+     A* PAGE HEADER RECORD
+     A*================================================================*
+     A          R HDRREC
+     A                                      SKIPB(1)
+     A                                     2DATE(*SYS)
+     A                                      EDTCDE(Y)
+     A                                    69'InStock Report'
+     A                                      HIGHLIGHT
+     A                                      SPACEA(1)
+     A                                     2TIME
+     A                                    69'Page:'
+     A                                    75PAGNBR
+     A                                      EDTCDE(Z)
+     A                                      SPACEA(1)
+     A* COLUMN HEADINGS (All grouped on Line 6)
+     A                                     1'ITEM '
+     A                                     7'DESCRIPTION'
+     A                                    59'  COST'
+     A                                    67'  QTY'
+     A                                    75'THRESH'
+     A                                      SPACEA(1)
+     A*================================================================*
+     A* DETAIL LINE RECORD (REPEATED FOR EACH ITEM)
+     A*================================================================*
+     A          R DETREC
+     A                                      SPACEB(2)
+     A            PITEM          5A  O     1
+     A            PDESC         45A  O     7
+     A            PCOST          7S 2O    57EDTWRD('     .  ')
+     A            PQTY           5S 0O    67EDTCDE(Z)
+     A            PTHRESH        5S 0O    76EDTCDE(Z)
+     A*================================================================*
+     A* FOOTER RECORD (OPTIONAL TOTALS / END OF REPORT)
+     A*================================================================*
+     A          R FTRREC
+     A                                      SPACEB(2)
+     A                                    52'*** END OF REPORT ***'
