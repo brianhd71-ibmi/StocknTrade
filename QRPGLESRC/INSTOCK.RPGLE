@@ -55,7 +55,7 @@ end-ds;
 
 // Standalone Variables
 dcl-s rrn          int(5);
-dcl-s nextItemNum  char(5) dtaara('BRIANHD711/NEXTITEM');
+dcl-s nextItemNum  char(5) dtaara('YOURLIB/NEXTITEM');
 dcl-s saveCategory char(25);
 dcl-s saveCatNum   char(4);
 dcl-s saveOrigin   char(25);
