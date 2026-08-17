@@ -38,7 +38,7 @@ end-ds;
 
 // Standalone Variables
 dcl-s rrn    zoned(4:0);
-dcl-s nextCatNum  char(4) dtaara('BRIANHD711/NEXTCAT');
+dcl-s nextCatNum  char(4) dtaara('YOURLIB/NEXTCAT');
 
 exec sql SET OPTION COMMIT = *NONE;
 //-------------------------------------------------------
