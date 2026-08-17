@@ -38,7 +38,7 @@ end-ds;
 
 // Standalone Variables
 dcl-s rrn    zoned(4:0);
-dcl-s nextOrgNum  char(4) dtaara('BRIANHD711/NEXTORIGIN');
+dcl-s nextOrgNum  char(4) dtaara('YOURLIB/NEXTORIGIN');
 
 exec sql SET OPTION COMMIT = *NONE;
 //-------------------------------------------------------
