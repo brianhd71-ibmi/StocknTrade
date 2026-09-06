@@ -5,13 +5,13 @@
       *      |      Solutions|    South Jordan, UT 84009             *
       *      |_______________|                                       *
       *                                                              *
-      *            Program Name:  StockList                          *
+      *            Program Name:  OSalesRPT                          *
       *                                                              *
-      *     Program Description:  Report: Stock Listing              *
-      *                                for Stock'nTrade  App         *
+      *     Program Description:  Options: Sales by date or          *
+      *                                transaction                   *
       *                                                              *
       *              Programmer:  Brian Lannoye                      *
-      *              Date Coded:  08/12/2026                         *
+      *              Date Coded:  09/05/2026                         *
       *                 Request:  Avocation -  Stock 'N Trade app    *
       *                                                              *
       * ----------------------  Modifications  --------------------- *
@@ -21,49 +21,47 @@
 **free
 ctl-opt dftactgrp(*no) actgrp(*caller);
 
-dcl-f PSTOCKLIST printer oflind(overflow);
+dcl-pr runReport extpgm('SALESRPT');
+  *n       ind const;
+  *n       char(9);
+end-pr;
 
-dcl-s overflow ind;
+dcl-f dsalesrpt workstn indds(dspfInds);
 
-exec sql set option commit = *none;
+dcl-ds dspfInds len(99);
+  summary      ind pos(02);
+  exit         ind pos(03);
+  detail       ind pos(05);
+end-ds;
+
 //--------------------------------------------------------
 //          /*       Main Processing       */
 //--------------------------------------------------------
-exsr WriteHeader;
+pStore = '8271971';
+today = %char(%date(): *usa);
 
-exec sql declare c1 cursor for
-  select itemnumber, itemdesc, itemcost, itemqty, ordthresh
-  from InStock
-  order by ItemNumber;
-
-exec sql close c1;
-exec sql open c1;
 dow (1 = 1);
-  exec sql fetch next from c1 into :PITEM, :PDESC, :PCOST, :PQTY, :PTHRESH;
+  now = %char(%time(): *hms);
+  exfmt salopt;
 
-
-  if (SQLSTATE = '02000' or SQLCODE < 0);
+  if (exit = *on);
     leave;
   endif;
-
-  if (overflow);
-    exsr WriteHeader;
+  if (summary = *on);
+    leave;
   endif;
-
-  write DETREC;
+  if (detail = *on);
+    leave;
+  endif;
 enddo;
 
-exec sql close c1;
-write FTRREC;
+select;
+  when (summary = *on);
+    runReport(*on: dXNum);
+  when (detail = *on);
+    runReport(*off: dXNum);
+  endsl;
+
 *inlr = *on;
 return;
-
-
-//================================================================*
-// SUBROUTINE: Write Header & Reset Overflow Indicator
-//================================================================*
-begsr WriteHeader;
-  write HDRREC;
-  overflow = *off;
-endsr;
 
