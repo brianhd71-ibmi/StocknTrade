@@ -73,3 +73,59 @@ You must modifiy the source code in InStock, ItemCat, ItemOrg and Terminal respe
  * call itemorg - click F6 to add an origin , or place a 2 on an existing origin to edit
 
 
+## New files added (reports, terminal UI, and print files)
+The following new source members were added to the repository. Quick descriptions, repository paths, and example compile/run commands are listed below.
+
+- [QRPGLESRC/TERMINAL.SQLRPGLE](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QRPGLESRC/TERMINAL.SQLRPGLE)
+  - Terminal Transactions program (POS terminal UI). Uses the display file [QDDSSRC/DTERMINAL.DSPF] to render the subfile-based transaction screen and function keys.
+
+- [QDDSSRC/DTERMINAL.DSPF](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QDDSSRC/DTERMINAL.DSPF)
+  - Display file for the terminal UI. Contains subfile layout (9 line slots), function-key indicators (F2/F3/F6/F12 etc.), and right-side transaction entry/totals area.
+
+- [QRPGLESRC/STOCKLIST.SQLRPGLE](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QRPGLESRC/STOCKLIST.SQLRPGLE)
+  - Stock listing report program. Produces output via printer file [QDDSSRC/PSTOCKLIST.PRTF].
+
+- [QDDSSRC/PSTOCKLIST.PRTF](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QDDSSRC/PSTOCKLIST.PRTF)
+  - Printer file definition used by the StockList report.
+
+- [QRPGLESRC/SALESRPT.SQLRPGLE](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QRPGLESRC/SALESRPT.SQLRPGLE)
+  - Sales report generator (detail and header processing). Queries XMASTER/XDETAIL for processed sales and prints to [QDDSSRC/PSALESRPT.PRTF].
+
+- [QDDSSRC/PSALESRPT.PRTF](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QDDSSRC/PSALESRPT.PRTF)
+  - Printer file definition used by the SalesRPT program. Includes header/detail formats for transactions and transaction line items.
+
+- [QRPGLESRC/OSALESRPT.RPGLE](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QRPGLESRC/OSALESRPT.RPGLE)
+  - Options/menu program that displays a small screen (summary vs detail) and launches the SalesRPT report program accordingly.
+
+### Example compile/install commands (IBM i)
+Replace MYLIB with the target library where you keep source and objects.
+
+- Compile display and printer file members (DDS -> file objects):
+  - CRTDSPF FILE(MYLIB/DTERMINAL) SRCFILE(MYLIB/QDDSSRC) SRCMBR(DTERMINAL)
+  - CRTPRTF FILE(MYLIB/PSTOCKLIST) SRCFILE(MYLIB/QDDSSRC) SRCMBR(PSTOCKLIST)
+  - CRTPRTF FILE(MYLIB/PSALESRPT) SRCFILE(MYLIB/QDDSSRC) SRCMBR(PSALESRPT)
+
+- Compile SQLRPGLE programs (uses embedded SQL):
+  - CRTSQLRPGI OBJ(MYLIB/TERMINAL) SRCFILE(MYLIB/QRPGLESRC) SRCMBR(TERMINAL)
+  - CRTSQLRPGI OBJ(MYLIB/STOCKLIST) SRCFILE(MYLIB/QRPGLESRC) SRCMBR(STOCKLIST)
+  - CRTSQLRPGI OBJ(MYLIB/SALESRPT) SRCFILE(MYLIB/QRPGLESRC) SRCMBR(SALESRPT)
+  - CRTPGM OBJ(MYLIB/OSALESRPT) SRCFILE(MYLIB/QRPGLESRC) SRCMBR(OSALESRPT)
+
+Notes:
+- If your environment requires different compile options (debug, activation group, or service program linkage), add those options to the CRTSQLRPGI/CRTDSPF/CRTPRTF commands as appropriate.
+- The SQLRPGLE programs use embedded SQL; ensure your library list and commitment level are set correctly when compiling and running.
+
+### How to run
+- Terminal UI: CALL PGM(MYLIB/TERMINAL) — opens the terminal transactions UI (requires the DTERMINAL display file to be available in MYLIB).
+  - F6 to begin a new sale.  Enter item ID or 00000 to search for an item.  F7 to void an item and F2 to complete the sale.  F3 to exit the terminal.
+- Stock list report: CALL PGM(MYLIB/STOCKLIST) — writes to the PSTOCKLIST printer file (ensure a printer device is configured or the file is directed to an SPOOL file you can view).
+- Sales report:
+  - CALL PGM(MYLIB/OSALESRPT) — this program presents options (summary or detail). Choose the option to run [MYLIB/SALESRPT].
+  - Note: The SalesRPT program accepts optional parameters when called directly: a scope flag (summary vs detail) and an optional transaction number to filter to a single transaction.
+    - Parameter 1 (scope flag): pass '1' to request summary-only output, pass '0' to request detail output (including transaction line items). If omitted, SalesRPT defaults to detail output.
+    - Parameter 2 (transaction number): pass a 9-character transaction number (e.g., '000001234') to restrict the report to a single transaction. If omitted or blank, the report includes all processed sales.
+
+    Examples (IBM i CALL usage):
+    - Summary for a single transaction: CALL PGM(MYLIB/SALESRPT) PARM('1' '000001234')
+    - Detail for a single transaction:  CALL PGM(MYLIB/SALESRPT) PARM('0' '000001234')
+    - All processed sales (detail, default):  CALL PGM(MYLIB/SALESRPT)
