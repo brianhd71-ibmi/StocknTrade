@@ -10,7 +10,7 @@
      A                                      SKIPB(1)
      A                                     2DATE(*SYS)
      A                                      EDTCDE(Y)
-     A                                    69'InStock Report'
+     A                                    65'InStock Item Listing'
      A                                      HIGHLIGHT
      A                                      SPACEA(1)
      A                                     2TIME
@@ -41,3 +41,5 @@
      A          R FTRREC
      A                                      SPACEB(2)
      A                                    52'*** END OF REPORT ***'
+     A                                   110'STOCK''N TRADE'
+

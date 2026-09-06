@@ -1,0 +1,27 @@
+     A                                      CHGINPDFT(CS)
+     A                                      PRINT
+     A                                      INDARA
+     A* -- Function Keys --
+     A                                      CF03(03 'Exit')
+     A                                      CF02(02 'Summary')
+     A                                      CF05(05 'Detail')
+     A*
+     A          R SALOPT
+     A                                      BLINK
+     A            TODAY         10A  O  1  2
+     A            NOW            8A  O  1 73
+     A* -- Title Line --
+     A                                  1 30'TT Sales Reporting'
+     A                                      DSPATR(HI)
+     A                                  2 32'STORE:'
+     A                                      DSPATR(HI)
+     A            PSTORE         7A  O  2 39
+     A                                 10 22'Transaction Number:'
+     A                                      DSPATR(HI)
+     A            DXNUM          9A  B 10 42
+     A* -- Function Key Legend --
+     A                                 23  1'STOCK''N TRADE'
+     A                                      DSPATR(HI)
+     A                                 23 18'F3=Exit   F2=Summary   F5=Detail'
+     A                                      COLOR(BLU)
+
