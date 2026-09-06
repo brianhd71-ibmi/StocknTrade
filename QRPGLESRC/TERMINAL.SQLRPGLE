@@ -348,9 +348,6 @@ dcl-proc closeSale;
   exec sql update xmaster set is_processed = 'Y' where xnum = :xNum;
 
   if sqlstate = SQL_FOUND;
-    in *lock nextTransactionNum;
-    evalr nextTransactionNum = %editc(%int(nextTransactionNum) + 1 : 'X');  //Increment
-    out nextTransactionNum;
     msg = 'Sale Complete...';
     xnum = '';
     active = *off;
@@ -387,5 +384,3 @@ dcl-proc crtNewXaction;
   t_total = 0.00;
 
 end-proc;
-
-
