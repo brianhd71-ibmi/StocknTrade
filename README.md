@@ -121,11 +121,21 @@ Notes:
 - Stock list report: CALL PGM(MYLIB/STOCKLIST) — writes to the PSTOCKLIST printer file (ensure a printer device is configured or the file is directed to an SPOOL file you can view).
 - Sales report:
   - CALL PGM(MYLIB/OSALESRPT) — this program presents options (summary or detail). Choose the option to run [MYLIB/SALESRPT].
-  - Note: The SalesRPT program accepts optional parameters when called directly: a scope flag (summary vs detail) and an optional transaction number to filter to a single transaction.
+  - Note: The SalesRPT program accepts optional parameters when called directly. It supports filtering by scope, by a single transaction number, by a single date, or by a date range.
     - Parameter 1 (scope flag): pass '1' to request summary-only output, pass '0' to request detail output (including transaction line items). If omitted, SalesRPT defaults to detail output.
-    - Parameter 2 (transaction number): pass a 9-character transaction number (e.g., '000001234') to restrict the report to a single transaction. If omitted or blank, the report includes all processed sales.
+    - Parameter 2 (transaction number): pass a 9-character transaction number (e.g., '000001234') to restrict the report to a single transaction. If provided, this takes precedence over date filters.
+    - Parameter 3 (start date): pass a date in MM/DD/YYYY format to restrict the report to transactions on or after this date. When only a single date is required, provide the same value for both start and end dates (or provide end date as blank to indicate a single-day filter).
+    - Parameter 4 (end date): pass a date in MM/DD/YYYY format to restrict the report to transactions on or before this date. If omitted or blank, the report will include transactions from the start date through the latest available date.
+
+    Behavior summary:
+    - If Parameter 2 (transaction number) is supplied and non-blank, the report will print only that transaction (Parameters 3/4 are ignored).
+    - If Parameter 2 is blank and Parameter 3 is supplied, SalesRPT will filter by the provided date or date range (Parameter 3 as start, Parameter 4 as end).
+    - If no parameters are supplied, the report prints all processed sales (detail by default).
 
     Examples (IBM i CALL usage):
     - Summary for a single transaction: CALL PGM(MYLIB/SALESRPT) PARM('1' '000001234')
     - Detail for a single transaction:  CALL PGM(MYLIB/SALESRPT) PARM('0' '000001234')
     - All processed sales (detail, default):  CALL PGM(MYLIB/SALESRPT)
+    - All sales for a single date (detail): CALL PGM(MYLIB/SALESRPT) PARM('0' '' '08/12/2026' '')
+    - Sales for a date range (summary): CALL PGM(MYLIB/SALESRPT) PARM('1' '' '08/01/2026' '08/12/2026')
+    - Sales from a start date through latest (detail): CALL PGM(MYLIB/SALESRPT) PARM('0' '' '08/01/2026' '')

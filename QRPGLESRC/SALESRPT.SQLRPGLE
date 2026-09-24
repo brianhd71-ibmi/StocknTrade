@@ -17,24 +17,35 @@
       * ----------------------  Modifications  --------------------- *
       *                                                              *
       *   Date    Pgmr  Req     Description                          *
+      * 9/07/2026  BL  00002   Added ability to filter by date and   *
+      *                        date range                            *
       ****************************************************************
 **free
 ctl-opt dftactgrp(*no) actgrp(*caller);
 
 dcl-pr main extpgm('ORGLOOKUP');
-  *n       ind     options(*nopass);
-  *n       char(9) options(*nopass);
+  *n       ind      options(*nopass);
+  *n       ind      options(*nopass);
+  *n       char(9)  options(*nopass);
+  *n       char(10) options(*nopass);
+  *n       char(10) options(*nopass);
+  *n       char(10) options(*nopass);
 end-pr;
 
 dcl-pi main;
-  scope   ind     options(*nopass);
-  inXnum  char(9) options(*nopass);
+  scope    ind      options(*nopass);
+  nonProc  ind      options(*nopass);
+  inXnum   char(9)  options(*nopass);
+  inXDate  char(10) options(*nopass);
+  inFrDate char(10) options(*nopass);
+  inToDate char(10) options(*nopass);
 end-pi;
 
 dcl-f psalesrpt printer oflind(overflow);
 
 dcl-c TAX 0.05;
 dcl-s overflow ind;
+dcl-s xStatus char(1) inz('Y');
 exec sql set option commit = *none;
 //--------------------------------------------------------
 //          /*       Main Processing       */
@@ -42,12 +53,18 @@ exec sql set option commit = *none;
 pStore = '8271971';
 today = %char(%date(): *usa);
 now = %char(%time(): *hms);
+inXDate = processDate(inXDate);
+inFrDate = processDate(inFrDate);
+inToDate = processDate(inToDate);
 exsr WriteHeader;
+if %parms < 2 or nonProc = *on;
+  xStatus = 'N';
+endif;
 
 exec sql declare c1 cursor for
   select xnum, VARCHAR_FORMAT(xdate, 'MM/DD/YYYY'), xtime, tax_rate, payment_method
   from xmaster
-  where transaction_type = 'SALE' AND is_processed = 'Y'
+  where transaction_type = 'SALE' AND is_processed = :xStatus
   order by xnum;
 
 exec sql close c1;
@@ -71,11 +88,17 @@ dow (1 = 1);
     exsr WriteHeader;
   endif;
 
-  if %parms < 2 or inXnum = *blanks or inXnum = pxnum;
-    write detail1;
+  if %parms < 6 or inToDate = *blanks or %date(inToDate:*usa) >= %date(pxdate:*usa);
+    if %parms < 5 or inFrDate = *blanks or %date(inFrDate:*usa) <= %date(pxdate:*usa);
+      if %parms < 4 or inXDate = *blanks or %date(inXDate:*usa) = %date(pxdate:*usa);
+        if %parms < 3 or inXnum = *blanks or inXnum = pxnum;
+          write detail1;
 
-    if %parms = 0 or scope = *off;
-      processXDetail(pxnum);
+          if %parms = 0 or scope = *off;
+            processXDetail(pxnum);
+          endif;
+        endif;
+      endif;
     endif;
   endif;
 enddo;
@@ -94,6 +117,27 @@ begsr WriteHeader;
   overflow = *off;
 endsr;
 
+//================================================================*
+// SUBPROCEDURE: Process date formatting
+//================================================================*
+dcl-proc processDate;
+  dcl-pi *n char(10);
+    pDate char(10);
+  end-pi;
+
+  dcl-s pMonth char(2);
+  dcl-s pDay char(2);
+  dcl-s pYear char(4);
+
+  if pDate <> *blanks and %scan('/' : pDate) = 0;
+    pMonth = %subst(pDate:1:2);
+    pDay = %subst(pDate:3:2);
+    pYear = %subst(pDate:5:4);
+    pDate = pMonth + '/' + pDay + '/' + pYear;
+  endif;
+
+  return pDate;
+end-proc;
 //================================================================*
 // SUBPROCEDURE: Process transaction details
 //================================================================*
