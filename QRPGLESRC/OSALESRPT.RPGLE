@@ -16,7 +16,9 @@
       *                                                              *
       * ----------------------  Modifications  --------------------- *
       *                                                              *
-      *   Date    Pgmr  Req     Description                          *
+      *   Date    Pgmr  Req    Description                           *
+      * 9/07/2026  BL  00002   Added ability to filter by date and   *
+      *                        date range                            *
       ****************************************************************
 **free
 ctl-opt dftactgrp(*no) actgrp(*caller);
