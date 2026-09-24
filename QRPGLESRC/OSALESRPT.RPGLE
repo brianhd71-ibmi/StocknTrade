@@ -22,8 +22,12 @@
 ctl-opt dftactgrp(*no) actgrp(*caller);
 
 dcl-pr runReport extpgm('SALESRPT');
-  *n       ind const;
+  *n       ind;
+  *n       ind;
   *n       char(9);
+  *n       char(10);
+  *n       char(10);
+  *n       char(10);
 end-pr;
 
 dcl-f dsalesrpt workstn indds(dspfInds);
@@ -32,6 +36,7 @@ dcl-ds dspfInds len(99);
   summary      ind pos(02);
   exit         ind pos(03);
   detail       ind pos(05);
+  nonProc      ind pos(07);
 end-ds;
 
 //--------------------------------------------------------
@@ -44,6 +49,7 @@ dow (1 = 1);
   now = %char(%time(): *hms);
   exfmt salopt;
 
+
   if (exit = *on);
     leave;
   endif;
@@ -53,14 +59,14 @@ dow (1 = 1);
   if (detail = *on);
     leave;
   endif;
+  if (nonProc = *on);
+    leave;
+  endif;
 enddo;
 
-select;
-  when (summary = *on);
-    runReport(*on: dXNum);
-  when (detail = *on);
-    runReport(*off: dXNum);
-  endsl;
+if not exit;
+  runReport(summary : nonProc : dXNum : dXDate : dFrDate : dToDate);
+endif;
 
 *inlr = *on;
 return;
