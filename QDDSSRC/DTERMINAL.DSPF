@@ -1,4 +1,3 @@
-     A*%%TS  SD  20260814  080757  BRIANHD71   REL-V7R5M0  5770-WDS
      A*========================================================================
      A* Terminal Transactions
      A* DESCRIPTION: Terminal Transactions Application Display
@@ -11,7 +10,6 @@
      A                                      CA03(03 'EXIT')
      A                                      CA12(12 'VOID SALE')
      A          R XTERMINAL
-     A*%%TS  SD  20260814  080757  BRIANHD71   REL-V7R5M0  5770-WDS
      A                                      CA06(06 'ADD NEW ENTRY')
      A                                      CA07(07 'VOID ITEM')
      A                                      CA08(08 'SCROLL UP')
@@ -68,23 +66,14 @@
      A            ITEMNUM09      5A  O 22 10
      A*
      A            ITEMDESC01    45A  O  6 17
-     A  71                                  COLOR(RED)
      A            ITEMDESC02    45A  O  8 17
-     A  72                                  COLOR(RED)
      A            ITEMDESC03    45A  O 10 17
-     A  73                                  COLOR(RED)
      A            ITEMDESC04    45A  O 12 17
-     A  74                                  COLOR(RED)
      A            ITEMDESC05    45A  O 14 17
-     A  75                                  COLOR(RED)
      A            ITEMDESC06    45A  O 16 17
-     A  76                                  COLOR(RED)
      A            ITEMDESC07    45A  O 18 17
-     A  77                                  COLOR(RED)
      A            ITEMDESC08    45A  O 20 17
-     A  78                                  COLOR(RED)
      A            ITEMDESC09    45A  O 22 17
-     A  79                                  COLOR(RED)
      A*
      A            ITEMQTY01      3Y 0O  6 65EDTCDE(Z)
      A            ITEMQTY02      3Y 0O  8 65EDTCDE(Z)
@@ -186,14 +175,14 @@
      A                                      COLOR(BLU)
      A                                 26 25'F3=EXIT'
      A                                      COLOR(BLU)
-     A                                 26 38'F6=New Sale'
+     A                                 26 34'F6=New Sale'
      A                                      COLOR(BLU)
-     A                                 26 51'F7=Void Item'
+     A                                 26 47'F7=Void Item'
      A                                      COLOR(BLU)
-     A  70                             26 65'F8=ScrollUp'
+     A  70                             26 61'F8=ScrollUp'
      A                                      COLOR(BLU)
-     A  70                             26 78'F9=ScrollDown'
+     A  70                             26 74'F9=ScrollDown'
      A                                      COLOR(BLU)
-     A                                 26 97'F12=Void Sale'
+     A                                 26 89'F12=Void Sale'
      A                                      COLOR(BLU)
      A            MSG           60A  O 27  2COLOR(WHT)
