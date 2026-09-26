@@ -16,7 +16,8 @@
       *                                                              *
       * ----------------------  Modifications  --------------------- *
       *                                                              *
-      *   Date    Pgmr  Req     Description                          *
+      *   Date     Pgmr  Req  Description                            *
+      * 09/23/2026 bl    003  Added scroll capability                *
       ****************************************************************
 **FREE
 ctl-opt dftactgrp(*no) actgrp(*caller);
@@ -38,9 +39,10 @@ dcl-ds dspfInds len(99);
   voidItem     ind pos(07);
   scrollup     ind pos(08);
   scrolldown   ind pos(09);
-  cancel       ind pos(12);
+  voidSale     ind pos(12);
   active       ind pos(40);
   itemVoid     ind pos(50);
+  dspScroll    ind pos(70);
   *n           ind pos(81);
   *n           ind pos(82);
   *n           ind pos(83);
@@ -147,6 +149,7 @@ dcl-c VOID '**VOID**';
 
 // Standalone Variables
 dcl-s nextTransactionNum char(9) dtaara('BRIANHD711/XACTION');
+dcl-s scrollUpPos int(10) inz(0);
 
 exec sql SET OPTION COMMIT = *NONE;
 //--------------------------------------------------------
@@ -159,7 +162,7 @@ dow not exit;
   now = %char(%time(): *hms);
   clearDisplayData();
   if active;
-    buildSaleList();
+    buildSaleList(scrollUpPos);
     addTotals();
   endif;
    //msg = *in(81) + ' ' + *in(82) + ' ' + *in(83) + ' ' + *in84;
@@ -185,7 +188,15 @@ dow not exit;
       msg = 'Enter Item Number to void...';
       itemVoid = *on;
 
-    when cancel;
+    when scrollup;
+        scrollUpPos += 1;
+
+    when scrolldown;
+      if scrollUpPos > 0;
+        scrollUpPos -= 1;
+      endif;
+
+    when voidSale;
       msg = 'Transaction voided....';
       xnum = '';
       active = *off;
@@ -246,6 +257,7 @@ dcl-proc addItem;
     else;
       msg = 'Failed to ' + mode + ' item - SQLERROR Code: ' + sqlstate;
     endif;
+    scrollUpPos = 0;
   else;
     promptStkFields(stkNum);
     e_itemid = stkNum;
@@ -270,7 +282,7 @@ dcl-proc addTotals;
     t_discount += itemdiscs(i);   //itemdiscs(i) should be negative value here
   endfor;
 
-  t_tax = t_subtotal * TAX_RATE;
+  eval(h) t_tax = (t_subtotal + t_discount) * TAX_RATE;
   t_total = t_subtotal + t_discount + t_tax;
 
 end-proc;
@@ -279,6 +291,10 @@ end-proc;
 //  Populates the sale items fields
 // -------------------------------------------------------------
 dcl-proc buildSaleList;
+  dcl-pi *n;
+    inScroll int(10);
+  end-pi;
+
   dcl-s count  like(xLineNum);
   dcl-s pos    like(xLineNum);
   dcl-s i      uns(5);
@@ -287,10 +303,18 @@ dcl-proc buildSaleList;
                   from xDetail where (xNum = :xnum);
 
   if sqlstate = SQL_FOUND;
+    if inScroll >  count - LIST_SIZE;
+      inScroll = count - LIST_SIZE; // set scroll position to stop at first line item
+    endif;
+    count = count - inScroll;
     pos = count - LIST_SIZE + 1;
     if pos < 1;
       pos = 1;
     endif;
+  endif;
+
+  if count > LIST_SIZE;
+    dspScroll = *on;
   endif;
 
   // Start reading from the database pointer position
@@ -351,6 +375,8 @@ dcl-proc closeSale;
     msg = 'Sale Complete...';
     xnum = '';
     active = *off;
+    dspScroll = *off;
+    scrollUpPos = 0;
   else;
     msg = 'Failed to close sale... - SQLERROR Code: ' + sqlstate;
   endif;
@@ -384,3 +410,6 @@ dcl-proc crtNewXaction;
   t_total = 0.00;
 
 end-proc;
+
+
+

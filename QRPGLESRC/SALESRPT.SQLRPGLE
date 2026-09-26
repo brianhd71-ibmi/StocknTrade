@@ -81,7 +81,7 @@ dow (1 = 1);
   endif;
 
   processXTotal(pxnum);
-  ptax = (psubtotal - ptotdisc) * TAX;
+  eval(h) ptax = (psubtotal - ptotdisc) * TAX;
   ptotal = psubtotal - ptotdisc + ptax;
 
   if (overflow);
