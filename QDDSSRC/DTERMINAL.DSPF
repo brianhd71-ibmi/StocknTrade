@@ -7,7 +7,7 @@
      A                                      INDARA
      A                                      PRINT
      A                                      CA02(02 'PAY')
-     A                                      CA03(03 'EXIT')
+     A N40                                  CA03(03 'EXIT')
      A                                      CA12(12 'VOID SALE')
      A          R XTERMINAL
      A                                      CA06(06 'ADD NEW ENTRY')
@@ -173,7 +173,7 @@
      A                                      DSPATR(HI)
      A                                 26 17'F2=Pay'
      A                                      COLOR(BLU)
-     A                                 26 25'F3=EXIT'
+     A N40                             26 25'F3=EXIT'
      A                                      COLOR(BLU)
      A                                 26 34'F6=New Sale'
      A                                      COLOR(BLU)
