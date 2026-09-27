@@ -18,6 +18,8 @@
       *                                                              *
       *   Date     Pgmr  Req  Description                            *
       * 09/23/2026 bl    003  Added scroll capability                *
+      * 09/27/2026 bl    004  check for void item available and lock *
+      *                       app when transaction is in process     *
       ****************************************************************
 **FREE
 ctl-opt dftactgrp(*no) actgrp(*caller);
@@ -180,7 +182,12 @@ dow not exit;
 
     when itemVoid;
       if e_itemid <> *blanks;
-        addItem(VOID);
+        if check4VoidItem(e_itemid);
+          addItem(VOID);
+        else;
+          msg = 'Item ' + e_itemid + ' is not part of this transaction...';
+          e_itemid = '';
+        endif;
         itemVoid = *off;
       endif;
 
@@ -342,6 +349,28 @@ dcl-proc buildSaleList;
 
 end-proc;
 
+// -------------------------------------------------------------
+//  Checks if voided item is part of the current transaction
+// -------------------------------------------------------------
+dcl-proc check4VoidItem;
+  dcl-pi *n ind;
+    inItem char(5) value;
+  end-pi;
+
+  dcl-s found ind inz(*off);
+  dcl-s currentGrossAmt packed(9 : 2);
+
+  exec sql select sum(gross_amt) into :currentGrossAmt
+       from xDetail
+       where xnum = :xnum and xitemnum = :inItem;
+
+  if sqlstate = SQL_FOUND and currentGrossAmt > 0;
+    found = *on;
+  endif;
+
+  return found;
+
+end-proc  ;
 // -------------------------------------------------------------
 //  Clears display Data
 // -------------------------------------------------------------
