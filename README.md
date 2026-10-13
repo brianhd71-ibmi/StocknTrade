@@ -32,11 +32,15 @@ Manage existing row entities by typing action codes directly into the O (Option)
 |---|---|---|
 | F3 | EXIT | Safely terminates the execution cycle and unlocks system data areas. |
 | F6 | Add New | Launches a clean database insertion window to assign a new inventory product. |
+| F7 | Copy Item | Duplicates an existing inventory record into a new item entry so you can create a similar product without re-entering all the details. |
 | [Enter] | Process | Submits your row selections (1 or 2) or commits search text criteria. |
 
 ------------------------------
 ## 📝 Using the Add or Edit Item Window
 When selecting 2=Edit on a grid item or pressing F6=Add New, a dedicated modal window overlays your terminal screen. Use this workspace to maintain precise record details.
+
+* F7=Copy Item: duplicate the selected item record into a new entry so you can reuse category, pricing, and quantity defaults without rekeying all details.
+
 ## 🔍 Interactive Category & Origin Lookups
 To prevent manual data entry errors and speed up processing, both the Category and Origin input fields feature automated subprogram lookups:
 
