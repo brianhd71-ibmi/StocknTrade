@@ -16,7 +16,8 @@
       *                           app to support the POS app         *
       * ----------------------  Modifications  --------------------- *
       *                                                              *
-      *   Date    Pgmr  Req     Description                          *
+      *   Date     Pgmr  Req    Description                          *
+      * 10/11/2026  bl   M001   Add ability to copy an existing item *
       ****************************************************************
 **FREE
 ctl-opt dftactgrp(*no) actgrp(*caller);
@@ -45,6 +46,7 @@ dcl-ds dspfInds len(99);
   exit         ind pos(03);
   save         ind pos(05);
   add          ind pos(06);
+  copy         ind pos(07);
   cancel       ind pos(12);
   sflDisplay   ind pos(31);
   sflCtlDisp   ind pos(32);
@@ -84,7 +86,7 @@ dow not exit;
   endif;
   if add;
     exsr clearFormFields;
-    exsr addItem;
+    addItem();
   endif;
 
   if SRCHITEM <> *blanks;
@@ -94,48 +96,6 @@ enddo;
 
 *inlr = *on;
 return;
-// =================================================================*
-// SUBROUTINE: Add item to inventory master
-// =================================================================*
-begsr AddItem;
-    w1header = 'Add Item';
-    in *lock nextItemNum;
-    w1item = nextItemNum;
-    out nextItemNum;
-
-    dow cancel = *off and  save = *off;
-      saveCatNum = w1CatNum;
-      saveOrgNum = w1OrigNum;
-      exfmt invwin01;
-      itemnumber = w1item;
-
-      if saveCatnum <> w1CatNum;
-        getCategoryFields();
-        iter;
-      endif;
-
-      if saveOrgnum <> w1OrigNum;
-        getOriginFields();
-        iter;
-      endif;
-
-      catnum = w1CatNum;
-      itemdesc  = w1desc;
-      itemcost = %dec(w1cost : 7 : 2);
-      itemprice = %dec(w1price : 7 : 2);
-      itemdisc = %dec(w1disc : 2 : 0);
-      itemqty   = w1qty;
-      ordthresh = w1thresh;
-      origNum = w1OrigNum;
-    enddo;
-
-    if cancel = *off and w1Desc <> *blanks;
-      write instk; // Best practice: use the Record Format name here
-      in *lock nextItemNum;
-      evalr nextItemNum = %editc(%int(nextItemNum) + 1 : 'X');
-      out nextItemNum;
-    endif;
-endsr;
 
 // =================================================================*
 // SUBROUTINE: Clear fields to make way for new record
@@ -242,28 +202,7 @@ begsr ProcessSubfileSelections;
          exfmt invwin00;
        endif;
      when sflopt = '2';
-       clear invwin01;
-       w1header = 'Edit Item';
-       chain sflitem instock01;
-       if %found(instock01);
-         // Bind exact properties to the modal container fields
-         w1item  = itemnumber;
-         w1desc  = itemdesc;
-         evalr w1cost = %trim(%editc(itemcost : 'P'));
-         evalr w1price = %trim(%editc(itemprice : 'P'));
-         evalr w1disc = %trim(%editc(itemdisc : '3'));
-         w1qty   = itemqty;
-         w1thresh = ordthresh;
-
-         chain orignum OrgLookup;
-         if %found(OrgLookup);
-           w1Orig = db_origin;
-         endif;
-
-         chain catnum CatLookup;
-         if %found(CatLookup);
-           w1Cat = db_category;
-         endif;
+       loadFormFields();
 
            saveCatNum = w1CatNum;
            saveOrgNum = w1OrigNum;
@@ -294,58 +233,140 @@ begsr ProcessSubfileSelections;
               getOriginFields();
              origNum = w1OrigNum;
            endif;
+
+           if copy = *on;
+             save = *on;
+           endif;
          enddo;
          if save = *on;   // 3. Update the record in the database
            update instk; // Best practice: use the Record Format name here
          endif;
-       endif;
     endsl;
     sflopt = ' ';
     update sflrec;
     readc sflrec;
   enddo;
 
+  if copy = *on;
+    save = *off;
+    addItem();
+  endif;
 endsr;
 
+// =================================================================*
+// PROCEDURE: Add item to inventory master
+// =================================================================*
+dcl-proc addItem;
+    in *lock nextItemNum;
+    w1item = nextItemNum;
+    out nextItemNum;
+
+    if copy = *on;
+      w1header = 'Copy Item';
+    else;
+      w1header = 'Add Item';
+    endif;
+
+    dow cancel = *off and  save = *off;
+      saveCatNum = w1CatNum;
+      saveOrgNum = w1OrigNum;
+      exfmt invwin01;
+      itemnumber = w1item;
+
+      if saveCatnum <> w1CatNum;
+        getCategoryFields();
+        iter;
+      endif;
+
+      if saveOrgnum <> w1OrigNum;
+        getOriginFields();
+        iter;
+      endif;
+
+      catnum = w1CatNum;
+      itemdesc  = w1desc;
+      itemcost = %dec(w1cost : 7 : 2);
+      itemprice = %dec(w1price : 7 : 2);
+      itemdisc = %dec(w1disc : 2 : 0);
+      itemqty   = w1qty;
+      ordthresh = w1thresh;
+      origNum = w1OrigNum;
+
+      if copy = *on;
+        save = *on;
+      endif;
+    enddo;
+
+    if cancel = *off and w1Desc <> *blanks;
+      write instk; // Best practice: use the Record Format name here
+      in *lock nextItemNum;
+      evalr nextItemNum = %editc(%int(nextItemNum) + 1 : 'X');
+      out nextItemNum;
+    endif;
+
+    if copy = *on;
+      save = *off;
+      addItem();
+    endif;
+end-proc;
 // =================================================================*
 // PROCEDURE: returns the category description
 // =================================================================*
 dcl-proc getCategoryFields;
 
   if not cancel;
-    if w1CatNum = '0000';
-      promptCatFields(w1CatNum : w1Cat);
+    chain w1catnum CatLookup;
+    if %found(CatLookup);
+      w1Cat = db_category;
     else;
-      chain w1catnum CatLookup;
-      if %found(CatLookup);
-        w1Cat = db_category;
-      else;
-        promptCatFields(w1CatNum : w1Cat);
-      endif;
+      promptCatFields(w1CatNum : w1Cat);
     endif;
   endif;
 
-  //return w1Cat;
 end-proc;
-
 // =================================================================*
 // PROCEDURE: returns the category description
 // =================================================================*
 dcl-proc getOriginFields;
 
   if not cancel;
-    if w1OrigNum = '0000';
-      promptOrgFields(w1OrigNum : w1Orig);
+    chain w1OrigNum OrgLookup;
+    if %found(OrgLookup);
+      w1Orig = db_origin;
     else;
-      chain w1OrigNum OrgLookup;
-      if %found(OrgLookup);
-        w1Orig = db_origin;
-      else;
-        promptOrgFields(w1OrigNum : w1Orig);
-      endif;
+      promptOrgFields(w1OrigNum : w1Orig);
     endif;
   endif;
 
-  //return w1Orig;
+end-proc;
+// =================================================================*
+// PROCEDURE: Loads form with data for editing
+// =================================================================*
+dcl-proc loadFormFields;
+
+  clear invwin01;
+  w1header = 'Edit Item';
+  chain sflitem instock01;
+  if %found(instock01);
+    // Bind exact properties to the modal container fields
+    w1item  = itemnumber;
+    w1desc  = itemdesc;
+    evalr w1cost = %trim(%editc(itemcost : 'P'));
+    evalr w1price = %trim(%editc(itemprice : 'P'));
+    evalr w1disc = %trim(%editc(itemdisc : '3'));
+    w1qty   = itemqty;
+    w1thresh = ordthresh;
+
+    chain orignum OrgLookup;
+    if %found(OrgLookup);
+      w1Orig = db_origin;
+    endif;
+
+    chain catnum CatLookup;
+    if %found(CatLookup);
+      w1Cat = db_category;
+    endif;
+  endif;
+
 end-proc;
 

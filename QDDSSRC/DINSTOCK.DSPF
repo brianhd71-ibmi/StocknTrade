@@ -1,4 +1,4 @@
-     A*%%TS  SD  20260805  021411  BRIANHD71   REL-V7R5M0  5770-WDS
+     A*%%TS  SD  20260812  175817  BRIANHD71   REL-V7R5M0  5770-WDS
      A*===============================================================
      A* FILE NAME : dInvMaster
      A* DESCRIPTION: STOCK'N TRADE Application Display
@@ -10,6 +10,7 @@
      A                                      CA03(03 'EXIT')
      A                                      CA05(05 'SAVE')
      A                                      CA06(06 'ADD NEW ENTRY')
+     A                                      CA07(07 'COPY')
      A                                      CA12(12 'CANCEL')
      A*================================================================*
      A* TOP HALF: SUBFILE DATA ROW RECORD                              *
@@ -28,7 +29,7 @@
      A* TOP HALF: SUBFILE CONTROL RECORD                               *
      A*================================================================*
      A          R SFLCTL                    SFLCTL(SFLREC)
-     A*%%TS  SD  20260726  050841  BRIANHD71   REL-V7R5M0  5770-WDS
+     A*%%TS  SD  20260812  175817  BRIANHD71   REL-V7R5M0  5770-WDS
      A                                      SFLSIZ(0015)
      A                                      SFLPAG(0014)
      A  31                                  SFLDSP
@@ -39,10 +40,8 @@
      A*----------------------------------------------------------------*
      A            TODAY         10A  O  1  2
      A                                  2  2TIME(*SYS)
-     A                                  1 68'STOCK''N TRADE'
-     A                                      DSPATR(HI)
      A                                  3 24'SEARCH ITEM..:'
-     A                                       COLOR(WHT)
+     A                                      COLOR(WHT)
      A            SRCHITEM      10A  B  3 40
      A*----------------------------------------------------------------*
      A                                  4  2'1=View 2=Edit'
@@ -63,6 +62,8 @@
      A                                  5 68'COST    '
      A                                      DSPATR(UL)
      A                                      COLOR(WHT)
+     A                                  1 69'InStock'
+     A                                      DSPATR(HI)
      A*----------------------------------------------------------------*
      A* FOOTER / ERROR SECTION
      A*----------------------------------------------------------------*
@@ -71,6 +72,8 @@
      A                                      COLOR(BLU)
      A                                 23 32'F6=Add New'
      A                                      COLOR(BLU)
+     A                                 23  1'STOCK''N TRADE'
+     A                                      DSPATR(HI)
      A            MSG           60A  O 24  2DSPATR(HI)
      A*================================================================*
      A* POPUP OVERLAY WINDOW: INVENTORY DETAIL DISPLAY                 *
@@ -158,5 +161,7 @@
      A                                      COLOR(BLU)
      A                                 14  3'Enter then F5=Save'
      A                                      COLOR(BLU)
-     A                                 14 25'F12=Cancel'
+     A                                 14 24'F7=Copy'
+     A                                      COLOR(BLU)
+     A                                 14 33'F12=Cancel'
      A                                      COLOR(BLU)
