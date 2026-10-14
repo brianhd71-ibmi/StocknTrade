@@ -67,7 +67,8 @@
      A                                      DSPATR(HI)
      A*
      A                                  5  3'Origin Number..:'
-     A            W1ORGNUM       4A  O  5 22DSPATR(HI)
+     A                                      DSPATR(HI)
+     A            W1ORGNUM       4A  O  5 22
      A*
      A                                  7  3'Description......:'
      A                                      DSPATR(HI)
