@@ -66,7 +66,8 @@
      A                                      DSPATR(HI)
      A*
      A                                  5  3'Category Number..:'
-     A            W1CATNUM       4A  O  5 22DSPATR(HI)
+     A                                      DSPATR(HI)
+     A            W1CATNUM       4A  O  5 22
      A*
      A                                  7  3'Description......:'
      A                                      DSPATR(HI)
