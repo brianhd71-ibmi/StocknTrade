@@ -3,6 +3,8 @@ This guide outlines how to navigate and manage inventory using the Stock'n Trade
 Note: See section - Setup located below before you begin
 ------------------------------
 ## 🖥️ Screen Layout Overview
+<img width="1024" height="768" alt="8AEEA658-2C66-434C-AA5D-44A00569C7AD_1_105_c" src="https://github.com/user-attachments/assets/d876bfd9-e62c-49f1-8687-d2f4cc9edcd7" />
+
 The terminal dashboard is broken down into three functional zones:
 
 * Header Zone: Displays the current date, time, and global searching utility.
