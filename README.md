@@ -1,9 +1,10 @@
 ## Stock'n Trade (INVSTOCK) — User Operations Manual
 This guide outlines how to navigate and manage inventory using the Stock'n Trade green-screen terminal interface. 
 Note: See section - Setup located below before you begin
+![alt text](0F6ADC31-4FE4-4A80-A980-87CFD10549DF_1_105_c.jpeg)
 ------------------------------
 ## 🖥️ Screen Layout Overview
-<img width="1024" height="768" alt="8AEEA658-2C66-434C-AA5D-44A00569C7AD_1_105_c" src="https://github.com/user-attachments/assets/d876bfd9-e62c-49f1-8687-d2f4cc9edcd7" />
+![alt text](071573AD-2E5E-4347-8F0E-11E5E9F62DD6.png)
 
 The terminal dashboard is broken down into three functional zones:
 
@@ -45,6 +46,8 @@ When selecting 2=Edit on a grid item or pressing F6=Add New, a dedicated modal w
 
 ## 🔍 Interactive Category & Origin Lookups
 To prevent manual data entry errors and speed up processing, both the Category and Origin input fields feature automated subprogram lookups:
+![alt text](E32D0DB7-49E2-4493-B025-70EFAF751181.png)
+![alt text](49EF4EB7-76BD-47C1-BFE2-494983DDEC33.png)
 
 * Forced Lookup: Key in 0000 into the code field and press [Enter] to intentionally trigger a lookup search list window.
 * Direct Entry: Key in a known 4-digit code directly into the target field.
