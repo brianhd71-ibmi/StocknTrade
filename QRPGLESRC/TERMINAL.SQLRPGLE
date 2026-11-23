@@ -167,7 +167,6 @@ dow not exit;
     buildSaleList(scrollUpPos);
     addTotals();
   endif;
-   //msg = *in(81) + ' ' + *in(82) + ' ' + *in(83) + ' ' + *in84;
   exfmt xterminal;
 
   select;
@@ -223,7 +222,7 @@ enddo;
 return;
 
 // -------------------------------------------------------------
-//  Adds Item to  xDetail
+//  Adds Item to  xDetail and active transaction
 // -------------------------------------------------------------
 dcl-proc addItem;
   dcl-pi *n;
@@ -265,10 +264,12 @@ dcl-proc addItem;
       msg = 'Failed to ' + mode + ' item - SQLERROR Code: ' + sqlstate;
     endif;
     scrollUpPos = 0;
-  else;
-    promptStkFields(stkNum);
-    e_itemid = stkNum;
-    addItem(mode);
+  else;  // prompt user for an item in case of error or inquiry(00000)
+    e_itemid = '';
+    promptStkFields(e_itemid);
+    if e_itemid <> '';
+      addItem(mode);
+    endif;
   endif;
 
 end-proc;
