@@ -86,6 +86,7 @@ You must modifiy the source code in InStock, ItemCat, ItemOrg and Terminal respe
 The following new source members were added to the repository. Quick descriptions, repository paths, and example compile/run commands are listed below.
 
 - [QRPGLESRC/TERMINAL.SQLRPGLE](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QRPGLESRC/TERMINAL.SQLRPGLE)
+![alt text](068F435D-F9A4-4789-9B0F-306EEF564D57_1_105_c.jpeg)
   - Terminal Transactions program (POS terminal UI). Uses the display file [QDDSSRC/DTERMINAL.DSPF] to render the subfile-based transaction screen and function keys.
 
 - [QDDSSRC/DTERMINAL.DSPF](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QDDSSRC/DTERMINAL.DSPF)
@@ -98,6 +99,7 @@ The following new source members were added to the repository. Quick description
   - Printer file definition used by the StockList report.
 
 - [QRPGLESRC/SALESRPT.SQLRPGLE](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QRPGLESRC/SALESRPT.SQLRPGLE)
+![alt text](67456F28-C9A0-4A65-9A44-5BB2891A3207_1_105_c.jpeg)
   - Sales report generator (detail and header processing). Queries XMASTER/XDETAIL for processed sales and prints to [QDDSSRC/PSALESRPT.PRTF].
 
 - [QDDSSRC/PSALESRPT.PRTF](/Users/brianlannoye/Desktop/Pub400/TT/StocknTrade/QDDSSRC/PSALESRPT.PRTF)
